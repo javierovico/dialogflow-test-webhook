@@ -10,7 +10,22 @@ export class WebhookService {
 
     create(createWebhookDto: any) {
         this.logService.create(createWebhookDto)
-        return "This action adds a new webhook";
+        return {
+            fulfillmentResponse: {
+                messages: [
+                    {
+                        text: {
+                            text: ["HOLA"],
+                        },
+                    },
+                ],
+            },
+            sessionInfo: {
+                parameters: {
+                    deuda: 3000
+                }
+            }
+        }
     }
 
     findAll() {

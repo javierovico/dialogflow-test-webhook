@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { AppService } from "./app.service";
+import { detectIntentAudio } from "./test/dialogflow-test";
 
 @Controller()
 export class AppController {
@@ -7,7 +8,8 @@ export class AppController {
     }
 
     @Get()
-    getHello(): string {
-        return this.appService.getHello();
+    async getHello(): Promise<string> {
+        await detectIntentAudio()
+        return Promise.resolve('success')
     }
 }
