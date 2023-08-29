@@ -6,8 +6,7 @@ import * as WAWebJS from "whatsapp-web.js";
 import { PUPPETEER_OPTIONS } from "../config";
 import { google } from "@google-cloud/dialogflow-cx/build/protos/protos";
 import IWebhookRequest = google.cloud.dialogflow.cx.v3.IWebhookRequest;
-import IWebhookResponse = google.cloud.dialogflow.cx.v3.IWebhookResponse;
-import WebhookResponse = google.cloud.dialogflow.cx.v3.WebhookResponse;
+import { IWebhookResponse } from "../utils/dialogflow-interfaces";
 
 @Injectable()
 export class WebhookService implements OnModuleInit {
@@ -87,8 +86,10 @@ export class WebhookService implements OnModuleInit {
         this.logService.create(createWebhookDto);
         switch (createWebhookDto.fulfillmentInfo?.tag) {
             case "inicio":
-                return this.inicio(createWebhookDto).toJSON();
+                return this.inicio(createWebhookDto);
                 break;
+            case 'promesaPago':
+                return this.promesaPago(createWebhookDto)
         }
     }
 
@@ -112,10 +113,10 @@ export class WebhookService implements OnModuleInit {
         return this.qr;
     }
 
-    private inicio(createWebhookDto: IWebhookRequest): WebhookResponse {
+    private inicio(createWebhookDto: IWebhookRequest): IWebhookResponse {
         const deuda = 200_000;
         const retraso = 20;
-        return new WebhookResponse({
+        return {
             fulfillmentResponse: {
                 messages: [
                     {
@@ -133,10 +134,16 @@ export class WebhookService implements OnModuleInit {
             },
             sessionInfo: {
                 parameters: {
-                    deuda: { numberValue: deuda },
-                    retraso: { numberValue: retraso}
+                    deuda: deuda ,
+                    retraso: retraso
                 }
             }
-        })
+        }
+    }
+
+    private promesaPago(createWebhookDto: IWebhookRequest): IWebhookResponse {
+        return {
+
+        };
     }
 }
