@@ -7,6 +7,7 @@ import { PUPPETEER_OPTIONS } from "../config";
 import { google } from "@google-cloud/dialogflow-cx/build/protos/protos";
 import IWebhookRequest = google.cloud.dialogflow.cx.v3.IWebhookRequest;
 import IWebhookResponse = google.cloud.dialogflow.cx.v3.IWebhookResponse;
+import WebhookResponse = google.cloud.dialogflow.cx.v3.WebhookResponse;
 
 @Injectable()
 export class WebhookService implements OnModuleInit {
@@ -86,7 +87,7 @@ export class WebhookService implements OnModuleInit {
         this.logService.create(createWebhookDto);
         switch (createWebhookDto.fulfillmentInfo?.tag) {
             case "inicio":
-                return this.inicio(createWebhookDto);
+                return this.inicio(createWebhookDto).toJSON();
                 break;
         }
     }
@@ -111,10 +112,10 @@ export class WebhookService implements OnModuleInit {
         return this.qr;
     }
 
-    private inicio(createWebhookDto: IWebhookRequest): IWebhookResponse {
+    private inicio(createWebhookDto: IWebhookRequest): WebhookResponse {
         const deuda = 200_000;
         const retraso = 20;
-        return {
+        return new WebhookResponse({
             fulfillmentResponse: {
                 messages: [
                     {
@@ -136,6 +137,6 @@ export class WebhookService implements OnModuleInit {
                     retraso: { numberValue: retraso}
                 }
             }
-        };
+        })
     }
 }
