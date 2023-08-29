@@ -4,8 +4,7 @@ import { UpdateWebhookDto } from "./dto/update-webhook.dto";
 import { createCanvas } from "canvas";
 import * as qrcode from 'qrcode';
 import { Response } from 'express';
-import { google } from "@google-cloud/dialogflow-cx/build/protos/protos";
-import IWebhookRequest = google.cloud.dialogflow.cx.v3.IWebhookRequest;
+import { IWebhookRequest } from "../utils/dialogflow-interfaces";
 
 
 @Controller("webhook")
