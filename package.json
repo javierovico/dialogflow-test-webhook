@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "deploy:prod": "nest build && pm2 startOrRestart ecosystem.config.js --env production",
+    "deploy:prod": "nest build && pm2 startOrRestart ecosystem.config.js --env production && pm2 logs bnfWebhook",
     "test:dialogflow": "ts-node src/test/dialogflow-test.ts"
   },
   "dependencies": {
@@ -28,12 +28,13 @@
     "@nestjs/mapped-types": "^2.0.2",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.0",
+    "canvas": "^2.11.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "dotenv": "^16.3.1",
     "luxon": "^3.4.2",
     "mysql": "^2.18.1",
-    "puppeteer": "^21.1.0",
+    "qrcode": "^1.5.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.17",

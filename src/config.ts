@@ -1,5 +1,4 @@
 import { config } from 'dotenv';
-import { PuppeteerNodeLaunchOptions } from 'puppeteer';
 import * as process from 'process';
 import { LoggerOptions } from 'typeorm/logger/LoggerOptions';
 config();
@@ -20,7 +19,7 @@ export const APP_URL = process.env.APP_URL || 'http://localhost:3000';
 
 export const PORT = process.env.PORT || '3000';
 export const API_TOKEN = process.env.API_TOKEN;
-export const PUPPETEER_OPTIONS: PuppeteerNodeLaunchOptions = {
+export const PUPPETEER_OPTIONS = {
   executablePath: process.env.CHROME_PATH ?? undefined,
   args:
     process.env.PUPPETER_NO_SANDBOX && process.env.PUPPETER_NO_SANDBOX == 'true'

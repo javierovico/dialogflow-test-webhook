@@ -9,7 +9,7 @@ export class AppController {
 
     @Get()
     async getHello(): Promise<string> {
-        await detectIntentAudio()
+        // await detectIntentAudio()
         return Promise.resolve('success')
     }
 }
