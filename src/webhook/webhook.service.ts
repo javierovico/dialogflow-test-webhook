@@ -152,7 +152,7 @@ export class WebhookService implements OnModuleInit {
             fulfillmentResponse: {
                 messages: [
                     {
-                        text: {text: [`Perfecto, su promesa de pago fue registrada para la fecha ${fechaPagoLuxon.toFormat('Y-m-d')}`]}
+                        text: {text: [`Perfecto, su promesa de pago fue registrada para la fecha ${fechaPagoLuxon.toFormat('yyyy-MM-dd')}`]}
                     }
                 ]
             }
