@@ -166,7 +166,7 @@ interface ISessionInfo {
     session?: (string|null);
 
     /** SessionInfo parameters */
-    parameters?: ({ [k: string]: any }|null);
+    parameters?: ({ [k: string]: any });
 }
 
 interface IStruct {
@@ -194,4 +194,90 @@ export interface IWebhookResponse {
 
     /** WebhookResponse targetFlow */
     targetFlow?: (string|null);
+}
+
+
+// request
+
+/** Properties of a FulfillmentInfo. */
+interface IFulfillmentInfo {
+
+    /** FulfillmentInfo tag */
+    tag?: (string|null);
+}
+interface IIntentParameterValue {
+
+    /** IntentParameterValue originalValue */
+    originalValue?: (string|null);
+
+    /** IntentParameterValue resolvedValue */
+    resolvedValue?: (any|null);
+}
+
+interface IIntentInfo {
+
+    /** IntentInfo lastMatchedIntent */
+    lastMatchedIntent?: (string|null);
+
+    /** IntentInfo displayName */
+    displayName?: (string|null);
+
+    /** IntentInfo parameters */
+    parameters?: ({ [k: string]: IIntentParameterValue }|null);
+
+    /** IntentInfo confidence */
+    confidence?: (number|null);
+}
+
+interface ISentimentAnalysisResult {
+
+    /** SentimentAnalysisResult score */
+    score?: (number|null);
+
+    /** SentimentAnalysisResult magnitude */
+    magnitude?: (number|null);
+}
+export interface IWebhookRequest {
+
+    /** WebhookRequest detectIntentResponseId */
+    detectIntentResponseId?: (string|null);
+
+    /** WebhookRequest text */
+    text?: (string|null);
+
+    /** WebhookRequest triggerIntent */
+    triggerIntent?: (string|null);
+
+    /** WebhookRequest transcript */
+    transcript?: (string|null);
+
+    /** WebhookRequest triggerEvent */
+    triggerEvent?: (string|null);
+
+    /** WebhookRequest dtmfDigits */
+    dtmfDigits?: (string|null);
+
+    /** WebhookRequest languageCode */
+    languageCode?: (string|null);
+
+    /** WebhookRequest fulfillmentInfo */
+    fulfillmentInfo?: (IFulfillmentInfo|null);
+
+    /** WebhookRequest intentInfo */
+    intentInfo?: (IIntentInfo|null);
+
+    /** WebhookRequest pageInfo */
+    pageInfo?: (IPageInfo|null);
+
+    /** WebhookRequest sessionInfo */
+    sessionInfo?: (ISessionInfo|null);
+
+    /** WebhookRequest messages */
+    messages?: (IResponseMessage[]|null);
+
+    /** WebhookRequest payload */
+    payload?: (IStruct|null);
+
+    /** WebhookRequest sentimentAnalysisResult */
+    sentimentAnalysisResult?: (ISentimentAnalysisResult|null);
 }

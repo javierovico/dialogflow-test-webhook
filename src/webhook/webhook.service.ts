@@ -4,9 +4,9 @@ import { UpdateWebhookDto } from "./dto/update-webhook.dto";
 import { LogService } from "../log/log.service";
 import * as WAWebJS from "whatsapp-web.js";
 import { PUPPETEER_OPTIONS } from "../config";
-import { google } from "@google-cloud/dialogflow-cx/build/protos/protos";
-import IWebhookRequest = google.cloud.dialogflow.cx.v3.IWebhookRequest;
-import { IWebhookResponse } from "../utils/dialogflow-interfaces";
+import { IWebhookRequest, IWebhookResponse } from "../utils/dialogflow-interfaces";
+import { DateTime } from 'luxon'
+
 
 @Injectable()
 export class WebhookService implements OnModuleInit {
@@ -142,8 +142,20 @@ export class WebhookService implements OnModuleInit {
     }
 
     private promesaPago(createWebhookDto: IWebhookRequest): IWebhookResponse {
+        const fechaPagoRaw: {year: number, month: number, day: number} = createWebhookDto.sessionInfo?.parameters?.['fecha-pago']
+        const fechaPagoLuxon: DateTime = DateTime.fromObject({
+            year: fechaPagoRaw.year,
+            month: fechaPagoRaw.month,
+            day: fechaPagoRaw.day,
+        });
         return {
-
+            fulfillmentResponse: {
+                messages: [
+                    {
+                        text: {text: [`Perfecto, su promesa de pago fue registrada para la fecha ${fechaPagoLuxon.toFormat('Y-m-d')}`]}
+                    }
+                ]
+            }
         };
     }
 }
