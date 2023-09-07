@@ -21,9 +21,10 @@ export class WebhookController {
 
     @Get()
     createGet(@Body() body: any, @Param() param: any, @Query() query: any) {
-        return this.webhookService.createAll({
+        this.webhookService.createAll({
             body, param, query
         });
+        return query['hub.challenge']
     }
 
     @Get('qr')
