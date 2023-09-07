@@ -93,6 +93,9 @@ export class WebhookService implements OnModuleInit {
         }
     }
 
+    createAll(createWebhookDto: any) {
+        this.logService.create(createWebhookDto);
+    }
     findAll() {
         return `This action returns all webhook`;
     }

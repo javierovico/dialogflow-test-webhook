@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Query } from "@nestjs/common";
 import { WebhookService } from "./webhook.service";
 import { UpdateWebhookDto } from "./dto/update-webhook.dto";
 import { createCanvas } from "canvas";
@@ -16,6 +16,14 @@ export class WebhookController {
     create(@Body() createWebhookDto: IWebhookRequest) {
         createWebhookDto.text
         return this.webhookService.create(createWebhookDto);
+    }
+
+
+    @Get()
+    createGet(@Body() body: any, @Param() param: any, @Query() query: any) {
+        return this.webhookService.createAll({
+            body, param, query
+        });
     }
 
     @Get('qr')
@@ -38,7 +46,7 @@ export class WebhookController {
         }
     }
 
-    @Get()
+    @Get('t')
     findAll() {
         return this.webhookService.findAll();
     }
