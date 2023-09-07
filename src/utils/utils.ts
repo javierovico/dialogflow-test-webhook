@@ -1,7 +1,6 @@
 import * as stream from "stream";
 import { Writable } from "stream";
 // import ffmpeg from 'fluent-ffmpeg';
-import * as FfmpegCommand from "fluent-ffmpeg";
 import * as fs from "fs";
 import path from "path";
 
@@ -21,55 +20,6 @@ async function base64ToReadable(base64String: string): Promise<stream.Readable> 
     });
 }
 
-
-export function convertToWavBase64(oggBase64) {
-    return new Promise((resolve, reject) => {
-        const buffers: any[] = [];
-        base64ToReadable(oggBase64)
-            .then(result => {
-                FfmpegCommand()
-                    .input(result)
-                    .inputFormat('ogg')
-                    .toFormat('wav')
-                    .on('end', () => {
-                        const concatenatedBuffer = Buffer.concat(buffers);
-                        const base64Result = concatenatedBuffer.toString('base64');
-                        resolve(base64Result); // Resuelve la promesa con base64Result
-                    })
-                    .pipe(new Writable({
-                        write(chunk, encoding, callback) {
-                            buffers.push(chunk);
-                            callback();
-                        }
-                    }));
-            })
-            .catch(error => {
-                reject(error); // Rechaza la promesa en caso de error
-            });
-    });
-}
-
-export function convertToWavPath(path: string) {
-    return new Promise(async (resolve, reject) => {
-        const buffers: any[] = [];
-        const readableString = await fs.createReadStream(path)
-        FfmpegCommand()
-            .input(readableString)
-            .inputFormat('ogg')
-            .toFormat('wav')
-            .on('end', () => {
-                const concatenatedBuffer = Buffer.concat(buffers);
-                const base64Result = concatenatedBuffer.toString('base64');//todo
-                resolve(base64Result); // Resuelve la promesa con base64Result
-            })
-            .pipe(new Writable({
-                write(chunk, encoding, callback) {
-                    buffers.push(chunk);
-                    callback();
-                }
-            }));
-    });
-}
 
 
 function obtenerFormatoDefault(entrada?: string): string | undefined {
