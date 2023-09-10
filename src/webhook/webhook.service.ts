@@ -173,7 +173,7 @@ export class WebhookService implements OnModuleInit {
         await this.logService.create(createWebhookDto);     //guarda el la base de datos
         for (const entry of createWebhookDto.entry) {
             for (const changes of entry.changes) {
-                const waId = changes.value.contacts.length ? changes.value.contacts[0].wa_id : undefined
+                const waId = changes.value.contacts?.length ? changes.value.contacts[0].wa_id : undefined
                 if (waId) {
                     const mensaje = changes.value.messages.filter(m => m.text?.body).map(m => m.text?.body || '').join('\n')
                     if (mensaje) {

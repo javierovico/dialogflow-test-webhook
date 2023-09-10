@@ -27,7 +27,7 @@ class Metadata {
 class Value {
     messaging_product: string
     metadata: Metadata
-    contacts: Contact[]
+    contacts?: Contact[]
     messages: Message[]
 }
 
