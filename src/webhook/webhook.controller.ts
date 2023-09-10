@@ -5,6 +5,7 @@ import { createCanvas } from "canvas";
 import * as qrcode from 'qrcode';
 import { Response } from 'express';
 import { IWebhookRequest } from "../utils/dialogflow-interfaces";
+import {WebhookWhatsappDto} from "./dto/webhook-whatsapp.dto";
 
 
 @Controller("webhook")
@@ -13,9 +14,8 @@ export class WebhookController {
     }
 
     @Post()
-    create(@Body() createWebhookDto: IWebhookRequest) {
-        createWebhookDto.text
-        return this.webhookService.create(createWebhookDto);
+    whatsappWebhook(@Body() createWebhookDto: WebhookWhatsappDto) {
+        return this.webhookService.whatsappWebhook(createWebhookDto);
     }
 
 

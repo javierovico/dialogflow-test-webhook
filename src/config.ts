@@ -43,3 +43,8 @@ export type TIPO_CUENTA_CODE = (typeof TIPOS_CUENTA_CODE_ADMITIDOS)[number];
 
 export const LOG_LEVEL: LoggerOptions =
   (process.env.LOG_LEVEL && process.env.LOG_LEVEL === 'true') || false;
+
+export const TOKEN_AMBAR_BETA_WHATSAPP_5491145975000 = process.env.TOKEN_AMBAR_BETA_WHATSAPP_5491145975000
+export const WHATSAPP_5491145975000_ID = process.env.WHATSAPP_5491145975000_ID
+export const WHATSAPP_5491145975000_TOKEN = process.env.WHATSAPP_5491145975000_TOKEN
+export const URL_AMBAR_BETA = process.env.URL_AMBAR_BETA

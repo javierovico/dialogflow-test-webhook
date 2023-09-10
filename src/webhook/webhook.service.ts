@@ -3,9 +3,16 @@ import { CreateWebhookDto } from "./dto/create-webhook.dto";
 import { UpdateWebhookDto } from "./dto/update-webhook.dto";
 import { LogService } from "../log/log.service";
 import * as WAWebJS from "whatsapp-web.js";
-import { PUPPETEER_OPTIONS } from "../config";
+import {
+    PUPPETEER_OPTIONS,
+    TOKEN_AMBAR_BETA_WHATSAPP_5491145975000,
+    URL_AMBAR_BETA,
+    WHATSAPP_5491145975000_ID, WHATSAPP_5491145975000_TOKEN
+} from "../config";
 import { IWebhookRequest, IWebhookResponse } from "../utils/dialogflow-interfaces";
 import { DateTime } from 'luxon'
+import {WebhookWhatsappDto} from "./dto/webhook-whatsapp.dto";
+import axios from "axios";
 
 
 @Injectable()
@@ -160,5 +167,49 @@ export class WebhookService implements OnModuleInit {
                 ]
             }
         };
+    }
+
+    async whatsappWebhook(createWebhookDto: WebhookWhatsappDto) {
+        await this.logService.create(createWebhookDto);     //guarda el la base de datos
+        for (const entry of createWebhookDto.entry) {
+            for (const changes of entry.changes) {
+                const waId = changes.value.contacts.length ? changes.value.contacts[0].wa_id : undefined
+                if (waId) {
+                    const mensaje = changes.value.messages.filter(m => m.text?.body).map(m => m.text?.body || '').join('\n')
+                    if (mensaje) {
+                        //realizar peticion a ambar-service
+                        try {
+                            const respuestas: string[] = (await axios.post(`${URL_AMBAR_BETA}/bot-service/query`, {
+                                codeChat: waId,
+                                input: mensaje
+                            },{
+                                headers: {
+                                    'Authorization' : 'Bearer ' + TOKEN_AMBAR_BETA_WHATSAPP_5491145975000,
+                                }
+                            })).data.mensajes
+                            for (const men of respuestas) {
+                                //enviar respuestas
+                                await axios.post(`https://graph.facebook.com/v17.0/${WHATSAPP_5491145975000_ID}/messages`, {
+                                    messaging_product: 'whatsapp',
+                                    to: waId,
+                                    type: 'text',
+                                    text: {
+                                        body: men
+                                    }
+                                },{
+                                    headers: {
+                                        'Authorization' : 'Bearer ' + WHATSAPP_5491145975000_TOKEN,
+                                    }
+                                })
+                            }
+                        } catch (e) {
+
+                        }
+
+                    }
+                }
+            }
+        }
+
     }
 }
