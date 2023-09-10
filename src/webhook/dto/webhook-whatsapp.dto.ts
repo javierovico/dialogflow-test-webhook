@@ -1,3 +1,5 @@
+import {IsArray, IsString} from "class-validator";
+
 class Text {
     body: string
 }
@@ -37,11 +39,14 @@ class Changes {
 }
 
 class Entry {
+    @IsString()
     id: string
     changes: Changes[]
 }
 
 export class WebhookWhatsappDto {
+    @IsString()
     object: string
+    @IsArray()
     entry: Entry[]
 }
